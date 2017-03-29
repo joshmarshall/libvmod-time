@@ -21,6 +21,27 @@ vmod_time(struct sess *sp, const char *time_string, double fallback)
 }
 
 
+double
+vmod_add(struct sess *sp, double time, double offset)
+{
+    return time + offset;
+}
+
+
+double
+vmod_sub(struct sess *sp, double time, double offset)
+{
+    return time - offset;
+}
+
+
+unsigned
+vmod_is_after(struct sess *sp, double time1, double time2)
+{
+    return time1 > time2;
+}
+
+
 const char *
 vmod_strftime(struct sess *sp, const char *format, double time)
 {

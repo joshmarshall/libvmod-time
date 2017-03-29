@@ -1,4 +1,7 @@
 Module time
 
 Function TIME time(STRING, TIME)
+Function TIME add(TIME, DURATION)
+Function TIME sub(TIME, DURATION)
+Function BOOL is_after(TIME, TIME)
 Function STRING strftime(STRING, TIME)
