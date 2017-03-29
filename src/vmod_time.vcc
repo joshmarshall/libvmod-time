@@ -1,0 +1,4 @@
+Module time
+
+Function TIME time(STRING, TIME)
+Function STRING strftime(STRING, TIME)

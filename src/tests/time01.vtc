@@ -1,0 +1,28 @@
+varnishtest "Test time returns appropriate value."
+
+server s1 {
+    rxreq
+    txresp
+} -start
+
+
+varnish v1 -vcl+backend {
+    import time from "${vmod_topbuild}/src/.libs/libvmod_time.so";
+
+    sub vcl_deliver {
+        set resp.http.x-time-timestamp = time.time("100.0", now);
+        set resp.http.x-time-fallback = time.time("foobar", time.time("0", now));
+        set resp.http.x-strftime-timestamp = time.strftime("%s", time.time("100.0", now));
+    }
+} -start
+
+
+client c1 {
+    txreq -url "/"
+    rxresp
+    expect resp.http.x-time-timestamp == "Thu, 01 Jan 1970 00:01:40 GMT"
+    expect resp.http.x-time-fallback == "Thu, 01 Jan 1970 00:00:00 GMT"
+    expect resp.http.x-strftime-timestamp == "100"
+}
+
+client c1 -run
